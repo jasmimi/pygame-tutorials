@@ -1,3 +1,8 @@
+# name: drawing.py
+# author: Jasmine Amohia
+# date: 20/08/24
+# desc: fill screen with image
+
 import pygame
 from pygame.locals import *
  

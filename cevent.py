@@ -1,3 +1,8 @@
+# name: cevent.py
+# author: Jasmine Amohia
+# date: 20/08/24
+# desc: event handling
+
 import pygame
 from pygame.locals import *
  

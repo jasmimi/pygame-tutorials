@@ -1,3 +1,8 @@
+# name: window.py
+# author: Jasmine Amohia
+# date: 20/08/24
+# desc: blank window
+
 import pygame
 from pygame.locals import *
  
