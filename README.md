@@ -5,6 +5,7 @@ To assist in our final group project report and portfolio for 'RaspberryPi Arcad
 ```
 python reaction.py
 ```
+This game will prompt the user to prepare to press the SPACE key on the start screen. 1-15 seconds later, a red screen will display alerting the user to press the SPACE key. If the user presses SPACE prematurely (early), they lose the game. If the user presses SPACE after the red screen appears (expected), they win the game and are presented with their reaction time.
 
 ## Demos of reaction.py
 
