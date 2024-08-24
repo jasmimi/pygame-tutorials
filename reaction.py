@@ -11,7 +11,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 font = pygame.font.SysFont("Arial", 36)
 
-SCREEN_CHANGE = randrange(1, 5) * 1000
+SCREEN_CHANGE = randrange(1, 15) * 1000
 
 def changeScreenRandom():
     screen.fill((255, 0, 0))
