@@ -1,3 +1,8 @@
+# name: reaction.py
+# author: Jasmine Amohia
+# date: 19/08/24
+# desc: single-player game to test players reaction time
+
 import pygame
 from random import randrange
 
