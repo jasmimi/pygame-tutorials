@@ -1,5 +1,10 @@
+# name: mainmenu.py
+# author: Jasmine Amohia
+# date: 29/08/24
+# desc: menu for player/s to choose which game they want to play
+
 # wip doesnt work
-import pygame#
+import pygame
 #import paperscissorsrock
 import reaction
 
