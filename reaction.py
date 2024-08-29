@@ -35,43 +35,47 @@ def changeScreenPressed(time):
     txtsurf = font.render(text, True, (255, 255, 255))
     screen.blit(txtsurf, ((SCREEN_WIDTH / 2) - txtsurf.get_width() // 2, (SCREEN_HEIGHT / 2) - txtsurf.get_height() // 2))
 
-# Game loop
-run = True
-pressed = False
-early = True
-screen_changed_time = 0
-init = True
+def main():
+    
+    # Game loop
+    run = True
+    pressed = False
+    early = True
+    screen_changed_time = 0
+    init = True
 
-while run:
-    current_time = pygame.time.get_ticks()
+    while run:
+        current_time = pygame.time.get_ticks()
 
-    if screen_changed_time == 0 and pressed == False and init:
-      screen.fill((0, 0, 0))
-      txtsurf = font.render("Get ready to press SPACE", True, (255, 255, 255))
-      screen.blit(txtsurf, ((SCREEN_WIDTH / 2) - txtsurf.get_width() // 2, (SCREEN_HEIGHT / 2) - txtsurf.get_height() // 2))
-      if current_time >= SCREEN_CHANGE and init:
-          changeScreenRandom()
-          screen_changed_time = pygame.time.get_ticks()
-          early = False
+        if screen_changed_time == 0 and pressed == False and init:
+            screen.fill((0, 0, 0))
+            txtsurf = font.render("Get ready to press SPACE", True, (255, 255, 255))
+            screen.blit(txtsurf, ((SCREEN_WIDTH / 2) - txtsurf.get_width() // 2, (SCREEN_HEIGHT / 2) - txtsurf.get_height() // 2))
+            if current_time >= SCREEN_CHANGE and init:
+                changeScreenRandom()
+                screen_changed_time = pygame.time.get_ticks()
+                early = False
 
-    key = pygame.key.get_pressed()
-    if key[pygame.K_SPACE] == True:
-        pressed = True
+        key = pygame.key.get_pressed()
+        if key[pygame.K_SPACE] == True:
+            pressed = True
 
-    if pressed and init:
-        if early:
-            changeScreenPressedEarly()
-            init = False
-        else:
-            reaction_time = current_time - screen_changed_time
-            changeScreenPressed(reaction_time)
-            init = False
-        pressed = False
+        if pressed and init:
+            if early:
+                changeScreenPressedEarly()
+                init = False
+            else:
+                reaction_time = current_time - screen_changed_time
+                changeScreenPressed(reaction_time)
+                init = False
+            pressed = False
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
 
-    pygame.display.update()
+        pygame.display.update()
 
-pygame.quit()
+    pygame.quit()
+
+main()

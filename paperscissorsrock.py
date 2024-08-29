@@ -20,7 +20,7 @@ def instructions():
   while pygame.time.get_ticks() - start_time < 10000:
     screen.fill((138, 206, 0))
     txth1 = font.render("Best of 3 rounds", True, (0, 0, 0))
-    txth2 = font.render("Choose your action by the last seond", True, (0, 0, 0))
+    txth2 = font.render("Choose your action", True, (0, 0, 0))
     txth3 = font.render("P1: paper=a, scissors=s, rock=d", True, (0, 0, 0))
     txth4 = font.render("P2: paper=LEFT, scissors=DOWN, rock=RIGHT", True, (0, 0, 0))
     screen.blit(txth1, ((SCREEN_WIDTH / 2) - txth1.get_width() // 2, ((SCREEN_HEIGHT / 2) - txth1.get_height()) - 40 ))
@@ -31,46 +31,78 @@ def instructions():
   return False
 
 def rounds():
-  for __ in range(3):
-    if __ == 0:
-      r1 = True
-      r2, r3 = False, False
-    if __ == 1:
-      r2 = True
-      r1, r3 = False, False
-    elif __ == 2:
-      r3 = True
-      r1, r2 = False, False
+    p1_scores, p2_scores = 0, 0
+    for round_num in range(3):
+        screen.fill((138, 206, 0))
+        txth1 = font.render(f"Round {round_num + 1}", True, (0, 0, 0))
+        screen.blit(txth1, ((SCREEN_WIDTH / 2) - txth1.get_width() // 2, SCREEN_HEIGHT / 4))
+        pygame.display.update()
+        pygame.time.delay(2000)
 
-    for _ in range(3, 0, -1):
-      screen.fill((138, 206, 0))
-      txth1 = font.render(str(_), True, (0, 0, 0))
-      screen.blit(txth1, ((SCREEN_WIDTH / 2) - txth1.get_width() // 2, (SCREEN_HEIGHT / 2) - txth1.get_height() // 2 ))
-      pygame.display.update()
-      pygame.time.delay(1000)
+        # Countdown before choice
+        for _ in range(3, 0, -1):
+            screen.fill((138, 206, 0))
+            txth1 = font.render(str(_), True, (0, 0, 0))
+            screen.blit(txth1, ((SCREEN_WIDTH / 2) - txth1.get_width() // 2, (SCREEN_HEIGHT / 2) - txth1.get_height() // 2))
+            pygame.display.update()
+            pygame.time.delay(1000)
+
+        p1_score, p2_score, p1_choice, p2_choice, result = round()
+        p1_scores += p1_score
+        p2_scores += p2_score
+
+        screen.fill((138, 206, 0))
+        result_text = f"P1 chose {p1_choice}, P2 chose {p2_choice}. Result: {result}"
+        txth1 = font.render(result_text, True, (0, 0, 0))
+        screen.blit(txth1, ((SCREEN_WIDTH / 2) - txth1.get_width() // 2, SCREEN_HEIGHT / 2))
+        pygame.display.update()
+        pygame.time.delay(3000)
     
     screen.fill((138, 206, 0))
-    round = "Round " + str(__+1)
-    txth1 = font.render(round, True, (0, 0, 0))
-    txth2 = font.render("P1 chose X, P2 chose Y. Result: Z", True, (0, 0, 0))
-    screen.blit(txth1, ((SCREEN_WIDTH / 2) - txth1.get_width() // 2, (SCREEN_HEIGHT / 2) - txth1.get_height() ))
-    screen.blit(txth2, ((SCREEN_WIDTH / 2) - txth2.get_width() // 2, (SCREEN_HEIGHT / 2) - txth2.get_height() // 6))
+    if p1_scores > p2_scores:
+        winner_text = "P1 wins the game!"
+    elif p2_scores > p1_scores:
+        winner_text = "P2 wins the game!"
+    else:
+        winner_text = "It's a tie!"
+    
+    txth1 = font.render("Game over!", True, (0, 0, 0))
+    txth2 = font.render(winner_text, True, (0, 0, 0))
+    screen.blit(txth1, ((SCREEN_WIDTH / 2) - txth1.get_width() // 2, SCREEN_HEIGHT / 3))
+    screen.blit(txth2, ((SCREEN_WIDTH / 2) - txth2.get_width() // 2, SCREEN_HEIGHT / 2))
     pygame.display.update()
     pygame.time.delay(5000)
-  
-  screen.fill((138, 206, 0))
-  txth1 = font.render("Game over!", True, (0, 0, 0))
-  txth2 = font.render("Result: X", True, (0, 0, 0))
-  screen.blit(txth1, ((SCREEN_WIDTH / 2) - txth1.get_width() // 2, (SCREEN_HEIGHT / 2) - txth1.get_height() ))
-  screen.blit(txth2, ((SCREEN_WIDTH / 2) - txth2.get_width() // 2, (SCREEN_HEIGHT / 2) - txth2.get_height() // 6))
-  pygame.display.update()
+
+def round():
+    p1_choice = p2_choice = None
+    while not (p1_choice and p2_choice):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_a:
+                    p1_choice = 'paper'
+                elif event.key == pygame.K_s:
+                    p1_choice = 'scissors'
+                elif event.key == pygame.K_d:
+                    p1_choice = 'rock'
+                elif event.key == pygame.K_LEFT:
+                    p2_choice = 'paper'
+                elif event.key == pygame.K_DOWN:
+                    p2_choice = 'scissors'
+                elif event.key == pygame.K_RIGHT:
+                    p2_choice = 'rock'
+
+    if p1_choice == p2_choice:
+        return 0, 0, p1_choice, p2_choice, "Tie"
+    elif (p1_choice == 'rock' and p2_choice == 'scissors') or \
+         (p1_choice == 'scissors' and p2_choice == 'paper') or \
+         (p1_choice == 'paper' and p2_choice == 'rock'):
+        return 1, 0, p1_choice, p2_choice, "P1 wins"
+    else:
+        return 0, 1, p1_choice, p2_choice, "P2 wins"
 
 #Game loop
 run = True
 init = True
-screen_time = 0
-p1_score = 0
-p2_score = 0
 
 while run:
   if init:
